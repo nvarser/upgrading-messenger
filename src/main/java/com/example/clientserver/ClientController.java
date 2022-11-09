@@ -21,6 +21,8 @@ import javafx.scene.text.TextFlow;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ClientController implements Initializable
@@ -33,7 +35,6 @@ public class ClientController implements Initializable
     private VBox VBoxMainClient;
     @FXML
     private ScrollPane ScrollPaneMainClient;
-
     private Client client;
 
 
@@ -62,15 +63,26 @@ public class ClientController implements Initializable
                     HBox hbox = new HBox();
                     hbox.setAlignment(Pos.CENTER_RIGHT);
                     hbox.setPadding(new Insets(5,5,5,10));
+                    Date currentTime = new Date();
+                    SimpleDateFormat formatOfTime = new SimpleDateFormat("HH:mm");
+                    Text timeOfMessage = new Text(formatOfTime.format(currentTime));
+
                     Text text = new Text(messageToSend);
-                    TextFlow textFlow = new TextFlow(text);
-                    textFlow.setStyle("-fx-background-color: rgb(15,125,242);"
+                    TextFlow textFlowMessage = new TextFlow(text);
+                    TextFlow textFlowTimeOfMessage = new TextFlow(timeOfMessage);
+
+                    textFlowMessage.setStyle("-fx-background-color: rgb(15,125,242);"
                                     + "-fx-background-radius: 20px;"
                                     + "-fx-color-label-visible: rgb(239,242,255);");
-                    textFlow.setPadding(new Insets(5,10,5,10));
+                    textFlowMessage.setPadding(new Insets(5,10,5,10));
+
+                    textFlowTimeOfMessage.setPadding(new Insets(6,10,0,0));
+
+                    timeOfMessage.setFill(Color.color(0,0,0));
                     text.setFill(Color.color(0.934,0.945,0.996));
 
-                    hbox.getChildren().add(textFlow);
+                    hbox.getChildren().add(textFlowTimeOfMessage);
+                    hbox.getChildren().add(textFlowMessage);
                     VBoxMainClient.getChildren().add(hbox);
 
                     client.sendMessageToServer(messageToSend);
